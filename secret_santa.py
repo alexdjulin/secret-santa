@@ -8,7 +8,8 @@ import random
 import re
 
 ## SCRPT VARIABLES TO EDIT ################################################################################################
-mail_path = 'email.html'  # path to email contents (.txt for a plain text email, .html for html contents)
+csv_file = 'data/secret_santas_list.csv'
+email_file = 'data/email.html'  # path to email contents (.txt for a plain text email, .html for html contents)
 attempts_limit = 100  # while-exit condition: Number of attempts to assign secret santas
 sg_sender_email = 'alexdjulin@gmail.com'
 ###########################################################################################################################
@@ -80,10 +81,9 @@ class SecretSanta:
 ## MAIN ####
 if __name__ == '__main__':
 
-	# extract csv information to lists
-	csv_file = 'secret_santas_list.csv'
-	# reads empty cells as '' and not NaN
+	# extract csv information, read empty cells as '' and not NaN
 	df = read_csv(csv_file).fillna('')
+
 	# store lists of names and emails
 	names_list = list(df['Name'])
 	email_list = list(df['Email'])
@@ -135,16 +135,16 @@ if __name__ == '__main__':
 		
 	# assignment succeded
 	if assignment_done:
-		print("The Secret Santa assignment was successfull after {} attempts".format(counter))
+		print("The Secret Santa assignment was successfull after {} attempts".format(counter+1))
 	else:
 		raise ValueError("The Secret Santa assignment was unsuccessfull after {} attempts. Black Lists incompatible. Increase the attempts limit or edit black lists".format(attempts_limit))
 	
 	# CONTACT SECRET SANTAS
 	# get email format based on file extension
-	email_format = 'html' if mail_path.lower().endswith('html') else 'plain'
+	email_format = 'html' if email_file.lower().endswith('html') else 'plain'
 
 	# read email file and store contents: first line is the subject, the other lines the email contents
-	with open(mail_path, encoding='UTF-8') as f:
+	with open(email_file, encoding='UTF-8') as f:
 		email_lines = f.readlines()
 		if len(email_lines) < 2:
 			raise ValueError("Email contents should have at least 2 lines:\nLine 1: Email Subject\nLine 2: Email Contents")
