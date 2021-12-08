@@ -8,4 +8,8 @@ This little script allows you to randomly draw and assign Secret Santas within a
 The input happens via a CSV file, where you can specify:
 + The name of the group members / string, mandatory
 + Their email / string, mandatory
-+ A black list / string (group members names separated by a '|'), optional
++ A black list / group members' names as strings separated by a '|', optional
+Lines with no name and blank lines are ignored. Do not change the column headers text.
+
+Example of CSV:
+
