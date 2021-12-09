@@ -70,8 +70,8 @@ class SecretSanta:
 				}
 			]
 			}
-			#sg = SendGridAPIClient(sg_key)
-			#response = sg.client.mail.send.post(request_body=data)
+			sg = SendGridAPIClient(sg_key)
+			response = sg.client.mail.send.post(request_body=data)
 			# print(response.status_code)
 			# print(response.body)
 			# print(response.headers)
