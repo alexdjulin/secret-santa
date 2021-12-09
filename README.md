@@ -70,6 +70,7 @@ Secret Santa: Chandler - Recipient: Rachel
 You can use a simple text file as email template or a complex html one. Visit the SendGrid documentation for more information on this.
 Here is my email template using html and css styles to display colors, images, special fonts etc.
 
+
 <p align="center">
   <img src="readme/email.gif" width="800"></a>
 </p>
