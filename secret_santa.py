@@ -3,16 +3,15 @@
 from sendgrid import SendGridAPIClient
 from sendgrid.helpers.mail import Mail
 from pandas import read_csv  # read csv file
-import os
-import random
-import re
+import os # file handling
+import json # read settings.json
+import random # random assignment
+import re # check email format
 
-## SCRPT VARIABLES TO EDIT ################################################################################################
-csv_file = 'data/secret_santas_list.csv'
-email_file = 'data/email.html'  # path to email contents (.txt for a plain text email, .html for html contents)
-attempts_limit = 100  # while-exit condition: Number of attempts to assign secret santas
-sg_sender_email = 'alexdjulin@gmail.com'
-###########################################################################################################################
+# load script settings from json file
+with open("data/settings.json", 'r') as json_file:	
+    SETTINGS = json.load(json_file)
+
 
 class SecretSanta:
 
@@ -30,7 +29,7 @@ class SecretSanta:
 	def __repr__(self):
 		""" print your secret santa object """
 		#to_print = "Name: {}\nEmail: {}\nRecipient: {}\nBlack List: {}\n".format(self.name, self.email, self.recipient, self.black_list)
-		to_print = "Secret Santa: {}   >>   Recipient: {}".format(self.name, self.recipient, self.recipient[1])
+		to_print = "Secret Santa: {} - Recipient: {}".format(self.name, self.recipient, self.recipient[1])
 		return to_print
 
 	def contact_secret_santa(self, subject, email_contents, email_format):
@@ -43,8 +42,11 @@ class SecretSanta:
 		email_contents = email_contents.replace('[RECIPIENT]', self.recipient)
 		
 		try:
-			# Retreive shotGrid API key from environment variables
-			sg_key = os.environ.get('SENDGRID_API_KEY')
+			# Retreive ShotGrid sender_email and API key from settings or environment variables
+			sg_sender_email = SETTINGS['sg_sender_email']
+			sg_api_key = SETTINGS['sg_api_key']
+			if not sg_api_key:
+				sg_key = os.environ.get('SENDGRID_API_KEY')
 
 			# define email settings
 			data = {
@@ -68,27 +70,28 @@ class SecretSanta:
 				}
 			]
 			}
-			sg = SendGridAPIClient(sg_key)
-			response = sg.client.mail.send.post(request_body=data)
+			#sg = SendGridAPIClient(sg_key)
+			#response = sg.client.mail.send.post(request_body=data)
 			# print(response.status_code)
 			# print(response.body)
 			# print(response.headers)
-			print("Secret Santa {} has been notified per E-Mail.".format(self.name))
+			print(">> {} has been notified per E-Mail".format(self.name))
 		except Exception as e:
 			print(e)
 			print(e.body)
+
 
 ## MAIN ####
 if __name__ == '__main__':
 
 	# extract csv information, read empty cells as '' and not NaN
-	df = read_csv(csv_file).fillna('')
+	df = read_csv(SETTINGS['csv_file']).fillna('')
 
 	# store lists of names and emails
 	names_list = list(df['Name'])
 	email_list = list(df['Email'])
 
-	# email validation (simple, just for typos)
+	# email validation (bacic, just for typos)
 	pattern = re.compile(r"^\S+@\S+\.\S+$")
 	for email in email_list:
 		if not re.match(pattern, email):
@@ -107,6 +110,7 @@ if __name__ == '__main__':
 	# this loop will run as long as all assignements are not complete or if an attempts limit is reached (assignment considered not possible)
 	counter = 0
 	assignment_done = False # while-exit condition
+	attempts_limit = SETTINGS['attempts_limit']
 
 	while not assignment_done and counter < attempts_limit:
 
@@ -139,22 +143,27 @@ if __name__ == '__main__':
 	else:
 		raise ValueError("The Secret Santa assignment was unsuccessfull after {} attempts. Black Lists incompatible. Increase the attempts limit or edit black lists".format(attempts_limit))
 	
-	# CONTACT SECRET SANTAS
-	# get email format based on file extension
-	email_format = 'html' if email_file.lower().endswith('html') else 'plain'
+	# get absolute path to email template
+	email_file = os.path.normpath(os.path.join(os.path.dirname(os.path.realpath(__file__)), SETTINGS['email_file']))
 
-	# read email file and store contents: first line is the subject, the other lines the email contents
-	with open(email_file, encoding='UTF-8') as f:
-		email_lines = f.readlines()
-		if len(email_lines) < 2:
-			raise ValueError("Email contents should have at least 2 lines:\nLine 1: Email Subject\nLine 2: Email Contents")
-		subject = email_lines[0]
+	# if template not valid, use default text for subject and email content
+	if not os.path.isfile(email_file):
+		subject = "Secret Santa"
+		email_content = "Hello [NAME], you are the Secret Santa of [RECIPIENT]. Ho ho ho!"
+	else:
+		# read email file and store contents: first line is the subject, the other lines the email contents
+		email_format = 'html' if email_file.lower().endswith('html') else 'plain'
+		with open(email_file, encoding='UTF-8') as f:
+			email_lines = f.readlines()
+			if len(email_lines) < 2:
+				raise ValueError("Email contents should have at least 2 lines:\nLine 1: Email Subject\nLine 2: Email Contents")
+			subject = email_lines[0]
 
-		html_content = '\n'.join(email_lines[1:])
-
-		# print santa and contact him per email
-		for santa in secret_santas:
-			print(santa)
-			#santa.contact_secret_santa(subject, html_content, email_format)
+			email_content = '\n'.join(email_lines[1:])
+			
+	# print santa and contact him per email
+	for santa in secret_santas:
+		print(santa)
+		santa.contact_secret_santa(subject, email_content, email_format)
 
 ## END OF MAIN ####

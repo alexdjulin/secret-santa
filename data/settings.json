@@ -1,0 +1,7 @@
+{
+    "csv_file": "data/secret_santas_list.csv",
+    "email_file": "data/email.html",
+    "attempts_limit": 100,
+    "sg_sender_email": "alexdjulin@gmail.com",
+    "sg_api_key": ""
+}
