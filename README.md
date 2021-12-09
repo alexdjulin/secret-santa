@@ -29,10 +29,10 @@ Some additional parameters need to be specified too. For clarity and to avoid ha
 
 ## Installing and using SendGrid
 Twilio SendGrid provides a cloud-based service that assists businesses with email delivery. The free offer allows you to send up to 100 emails a day, which is good enough for our little project.
-[Create a SendGrid account](https://sendgrid.com/free/)
-[Create a Single Sender Verification](https://docs.sendgrid.com/ui/sending-email/sender-verification)
-[Create a personal API key](https://docs.sendgrid.com/ui/account-and-settings/api-keys)
-[Install the SendGrid python library](https://github.com/sendgrid/sendgrid-python)
++ [Create a SendGrid account](https://sendgrid.com/free/) 
++ [Create a Single Sender Verification](https://docs.sendgrid.com/ui/sending-email/sender-verification) 
++ [Create a personal API key](https://docs.sendgrid.com/ui/account-and-settings/api-keys) 
++ [Install the SendGrid python library](https://github.com/sendgrid/sendgrid-python) <br/><br/>
 Look at this last link for simple examples on sending emails using python. This project uses the *"Without Mail Helper Class"* example.
 
 ## Running the script
