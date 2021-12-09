@@ -6,10 +6,10 @@ This little script allows you to randomly draw and assign Secret Santas within a
 
 ## User input / Requirements
 The input happens via a CSV file, where you can specify:
-+ The name of the group members / string, mandatory
-+ Their email / string, mandatory
-+ A black list / group members' names as strings separated by a '|', optional
-Lines with no name and blank lines are ignored. Do not change the column headers text.
++ **Name** [string] of the group members, mandatory
++ **Email** [string] of the group members, mandatory
++ **Black list** [string] group members' names separated by '|', optional
+Lines with no name and blank lines are ignored. Do not change the column header's text.
 
 <p align="center">
   <img src="readme/csv_file.jpg" width="657"></a>
