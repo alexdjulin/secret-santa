@@ -23,9 +23,16 @@ Some additional parameters need to be specified too. For clarity and to avoid ha
 + **sg_sender_email**: [string] email of your SendGrid account
 + **sg_api_key**: [string] your personal SendGrid API key (private, don't share it with ANYONE). Leave blank to call the one from your environment variables
 
-<p align="center">
-  <img src="readme/settings_json.jpg" width="688"></a>
-</p>
+```json
+{
+    "csv_file": "data/secret_santas_list.csv",
+    "email_file": "data/email.html",
+    "attempts_limit": 100,
+    "sg_sender_email": "alexdjulin@gmail.com",
+    "sg_api_key": ""
+}
+
+```
 
 ## Installing and using SendGrid
 Twilio SendGrid provides a cloud-based service that assists businesses with email delivery. The free offer allows you to send up to 100 emails a day, which is good enough for our little project.
@@ -43,6 +50,25 @@ The script will read your CSV file and create SecretSanta instances for each mem
 ## Output
 After executing without any error, the script will confirm the successful assignment of recipients to Secret Santas and tell you how many attempts were necessary. It will print the result of the assignment and confirm that each Secret Santa has been contacted per email.
 
+```
+The Secret Santa assignment was successfull after 3 attempts
+Secret Santa: Rachel - Recipient: Joey
+>> Rachel has been notified per E-Mail
+Secret Santa: Monica - Recipient: Phoebe
+>> Monica has been notified per E-Mail
+Secret Santa: Phoebe - Recipient: Chandler
+>> Phoebe has been notified per E-Mail
+Secret Santa: Ross - Recipient: Monica
+>> Ross has been notified per E-Mail
+Secret Santa: Joey - Recipient: Ross
+>> Joey has been notified per E-Mail
+Secret Santa: Chandler - Recipient: Rachel
+>> Chandler has been notified per E-Mail
+```
+
+## Email personalization
+You can use a simple text file as email template or a complex html one. Visit the SendGrid documentation for more information on this.
+
 <p align="center">
-  <img src="readme/output.jpg" width="811"></a>
+  <img src="readme/email.gif" width="800"></a>
 </p>
