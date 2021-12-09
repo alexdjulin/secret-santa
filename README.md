@@ -39,3 +39,10 @@ Look at this last link for simple examples on sending emails using python. This 
 Once you filled up the CSV and JSON files, and tested sending an email using your SendGrid account, you can run the script or place the contents of the MAIN inside a function that you can call from another script.
 
 The script will read your CSV file and create SecretSanta instances for each member of the group. Then it will try to assign recipients to Santas until the black lists conditions are respected. If it fails after X attempts (specified in the json file), it will consider the task impossible and give up. If the assignment is successful though, it will send an email to each Secret Santa. Email contents are loaded from txt or html templates (specified in the json file). If not template is passed, a default text will be used.
+
+## Output
+After executing without any error, the script will confirm the successful assignment of recipients to Secret Santas and tell you how many attempts were necessary. It will print the result of the assignment and confirm that each Secret Santa has been contacted per email.
+
+<p align="center">
+  <img src="readme/output.jpg" width="811"></a>
+</p>
