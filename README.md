@@ -1,6 +1,8 @@
 # Secret Santa
 _Draw and email your Secret Santas using Python and Sendgrid... Ho ho ho!_ 🎅
 
+Detailed article [on my blog](https://dev.alexdjulin.ovh/draw-and-email-your-secret-santas-using-python-and-sendgrid).
+
 <br/><img src="readme/cover.jpg" width="800"></a><br/>
 
 ## Description
