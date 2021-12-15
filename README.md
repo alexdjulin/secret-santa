@@ -32,7 +32,7 @@ Some additional parameters need to be specified too. For clarity and to avoid ha
     "csv_file": "data/secret_santas_list.csv",
     "email_file": "data/email.html",
     "attempts_limit": 100,
-    "sg_sender_email": "alexdjulin@gmail.com",
+    "sg_sender_email": "youremail@domain.com",
     "sg_api_key": ""
 }
 
